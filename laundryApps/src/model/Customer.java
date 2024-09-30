@@ -1,7 +1,7 @@
 package model;
 
 public class Customer {
-	String id, nama, alamat, hp;
+	String id, name, address, phone;
 
 	public String getId() {
 		return id;
@@ -11,29 +11,28 @@ public class Customer {
 		this.id = id;
 	}
 
-	public String getNama() {
-		return nama;
+	public String getName() {
+		return name;
 	}
 
-	public void setNama(String nama) {
-		this.nama = nama;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getAlamat() {
-		return alamat;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAlamat(String alamat) {
-		this.alamat = alamat;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getHp() {
-		return hp;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setHp(String hp) {
-		this.hp = hp;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
-	
 
 }

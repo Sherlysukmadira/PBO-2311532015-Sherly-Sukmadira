@@ -10,28 +10,28 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import confg.Database;
-import model.User;
-import DAO.UserDao;
+import model.Customer;
+import DAO.CustomerDao;
 
-public class UserRepo implements UserDao {
+public class CustomerRepo implements CustomerDao {
 	private Connection connection;
-	final String insert = "INSERT INTO user (name, username, password) VALUES (?, ?, ?);";
-	final String select = "SELECT * FROM user;" ;
-	final String delete = "DELETE FROM user WHERE id = ?;";
-	final String update = "UPDATE user SET name=?, username=?, password=? WHERE id = ?;";
+	final String insert = "INSERT INTO customer (name, address, phone) VALUES (?, ?, ?);";
+	final String select = "SELECT * FROM customer;" ;
+	final String delete = "DELETE FROM customer WHERE id = ?;";
+	final String update = "UPDATE customer SET name=?, address=?, phone=? WHERE id = ?;";
 	
-	public UserRepo () {
+	public CustomerRepo () {
 		connection = Database.koneksi();
 	}
 
 	@Override
-	public void save(User user) {
+	public void save(Customer customer) {
 		PreparedStatement st = null;
 		try {
 			st = connection.prepareStatement(insert);
-			st.setString(1, user.getName());
-			st.setString(2, user.getUsername());
-			st.setString(3, user.getPassword());
+			st.setString(1, customer.getName());
+			st.setString(2, customer.getAddress());
+			st.setString(3, customer.getPhone());
 			st.executeUpdate();
 		}
 		
@@ -48,19 +48,19 @@ public class UserRepo implements UserDao {
 	}
 
 	@Override
-	public List<User> show() {
-		List<User>ls = null;
+	public List<Customer> show() {
+		List<Customer>ls = null;
 		try {
-			ls = new ArrayList<User>();
+			ls = new ArrayList<Customer>();
 			Statement  st = connection.createStatement();
 			ResultSet rs = st.executeQuery(select);
 			while(rs.next()) {
-				User user = new User();
-				user.setId(rs.getString("id"));
-				user.setNama(rs.getString("name"));
-				user.setUsername(rs.getString("username"));
-				user.setPassword(rs.getString("password"));
-				ls.add(user);
+				Customer customer = new Customer();
+				customer.setId(rs.getString("id"));
+				customer.setName(rs.getString("name"));
+				customer.setAddress(rs.getString("address"));
+				customer.setPhone(rs.getString("phone"));
+				ls.add(customer);
 			}
 		}catch(SQLException e) {
 			Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
@@ -90,14 +90,14 @@ public class UserRepo implements UserDao {
 	}
 
 	@Override
-	public void update(User user) {
+	public void update(Customer customer) {
 		PreparedStatement st = null;
 		try {
 			st = connection.prepareStatement(update);
-			st.setString(1, user.getName());
-			st.setString(2, user.getUsername());
-			st.setString(3, user.getPassword());
-			st.setString(4, user.getId());
+			st.setString(1, customer.getName());
+			st.setString(2, customer.getAddress());
+			st.setString(3, customer.getPhone());
+			st.setString(4, customer.getId());
 			st.executeUpdate();
 			
 		}catch(SQLException e){
@@ -112,4 +112,5 @@ public class UserRepo implements UserDao {
 			}
 		}	
 	}
+
 }

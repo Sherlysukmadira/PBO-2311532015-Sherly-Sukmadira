@@ -1,7 +1,7 @@
 package model;
 
 public class User {
-	String id, nama, username, password;
+	String id, name, username, password;
 
 	public String getId() {
 		return id;
@@ -11,12 +11,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getNama() {
-		return nama;
+	public String getName() {
+		return name;
 	}
 
-	public void setNama(String nama) {
-		this.nama = nama;
+	public void setNama(String name) {
+		this.name = name;
 	}
 
 	public String getUsername() {
