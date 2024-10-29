@@ -44,6 +44,7 @@ public class ServiceFrame extends JFrame {
 	private JTable tableService;
 	private ServiceRepo serviceRepo;
 	private String selectedld = null;
+	private JTextField txtSatuan;
 
 	
 	public static void main(String[] args) {
@@ -52,6 +53,7 @@ public class ServiceFrame extends JFrame {
 				try {
 					ServiceFrame frame = new ServiceFrame();
 					frame.setVisible(true);
+					frame.loadTable();
 					} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +73,7 @@ public class ServiceFrame extends JFrame {
 	ServiceRepo svr = new ServiceRepo();  
 	List<Service> ls;
 	public String id;
-	private JTextField txtSatuan;
+	
 	
 	
 	public void loadTable() {
@@ -79,7 +81,7 @@ public class ServiceFrame extends JFrame {
 		System.out.println(ls.size());
 		TableService ts = new TableService(ls);
 		tableService.setModel(ts);
-		tableService.getTableHeader(). setVisible(true);
+		tableService.getTableHeader().setVisible(true);
 		
 	}
 	

@@ -10,34 +10,28 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import confg.Database;
-import model.Service;
-import DAO.ServiceDao;
-import DAO.ServiceRepo;
+import model.OrderDetail;
+import DAO.OrderDetailDao;
 
-
-public class ServiceRepo implements ServiceDao {
+public class OrderDetailRepo implements OrderDetailDao {
 	private Connection connection;
+	final String insert = "INSERT INTO order_detail (jenis, qty, total) VALUES (?,?,?);";
+	final String select = "SELECT * FROM order_detail;";
+	final String delete = "DELETE FROM order_detail WHERE id=?;";
+	final String update = "UPDATE order_detail SET jenis=?, qty=?, total=? WHERE id=?;";
 	
-	final String insert = "INSERT INTO service (jenis, status, harga, satuan) VALUES (?, ?, ?, ?);";
-	final String select = "SELECT * FROM service;" ;
-	final String delete = "DELETE FROM service WHERE id = ?;";
-	final String update = "UPDATE service SET jenis=?, status=?, harga=?, satuan=? WHERE id = ?;";
-	
-
-	
-	public ServiceRepo () {
+	public OrderDetailRepo () {
 		connection = Database.koneksi();
 	}
 
 	@Override
-	public void save(Service service) {
+	public void save(OrderDetail orderdetail) {
 		PreparedStatement st = null;
 		try {
 			st = connection.prepareStatement(insert);
-			st.setString(1, service.getJenis());
-			st.setString(2, service.getStatus());
-			st.setDouble(3, service.getHarga());
-			st.setDouble(4, service.getSatuan());
+			st.setString(1, orderdetail.getJenis());
+			st.setString(2, orderdetail.getQty());
+			st.setString(3, orderdetail.getTotal());
 			st.executeUpdate();
 		}
 		
@@ -54,23 +48,22 @@ public class ServiceRepo implements ServiceDao {
 	}
 
 	@Override
-	public List<Service> show() {
-		List<Service>ls = null;
+	public List<OrderDetail> show() {
+		List<OrderDetail>ls = null;
 		try {
-			ls = new ArrayList<Service>();
+			ls = new ArrayList<OrderDetail>();
 			Statement  st = connection.createStatement();
 			ResultSet rs = st.executeQuery(select);
 			while(rs.next()) {
-				Service service= new Service();
-				service.setId(rs.getString("id"));
-				service.setJenis(rs.getString("jenis"));
-				service.setStatus(rs.getString("status"));
-				service.setHarga(rs.getDouble("harga"));
-				service.setSatuan(rs.getDouble("satuan"));
-				ls.add(service);
+				OrderDetail orderdetail = new OrderDetail();
+				orderdetail.setId(rs.getString("id"));
+				orderdetail.setJenis(rs.getString("jenis"));
+				orderdetail.setQty(rs.getString("qty"));
+				orderdetail.setTotal(rs.getString("total"));
+				ls.add(orderdetail);
 			}
 		}catch(SQLException e) {
-			Logger.getLogger(ServiceDao.class.getName()).log(Level.SEVERE,null,e);
+			Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
 		}
 		return ls;
 	}
@@ -97,15 +90,14 @@ public class ServiceRepo implements ServiceDao {
 	}
 
 	@Override
-	public void update(Service service) {
+	public void update(OrderDetail orderdetail) {
 		PreparedStatement st = null;
 		try {
 			st = connection.prepareStatement(update);
-			st.setString(1, service.getJenis());
-			st.setString(2, service.getStatus());
-			st.setDouble(3, service.getHarga());
-			st.setDouble(4, service.getSatuan());
-			st.setString(5, service.getId());
+			st.setString(1, orderdetail.getJenis());
+			st.setString(2, orderdetail.getQty());
+			st.setString(3, orderdetail.getTotal());
+			st.setString(4, orderdetail.getId());
 			st.executeUpdate();
 			
 		}catch(SQLException e){
@@ -120,6 +112,5 @@ public class ServiceRepo implements ServiceDao {
 			}
 		}	
 	}
-	
 
 }
