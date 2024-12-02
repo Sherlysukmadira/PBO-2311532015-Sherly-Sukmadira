@@ -1,7 +1,6 @@
 package model;
-
 public class OrderDetail {
-	String id, jenis, qty, total;
+	String id, jenis, qty, total, harga;
 
 	public String getId() {
 		return id;
@@ -10,7 +9,6 @@ public class OrderDetail {
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getJenis() {
 		return jenis;
 	}
@@ -33,5 +31,8 @@ public class OrderDetail {
 
 	public void setTotal(String total) {
 		this.total = total;
+	}
+	public Object getHarga() {
+		return null;
 	}
 }

@@ -150,7 +150,7 @@ public class UserFrame extends JFrame {
 		btnSave.setBackground(new Color(128, 255, 0));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = new User();
+				User user = new User("" , "");
 				user.setNama(txtName.getText());
 				user.setUsername(txtUsername.getText());
 				user.setPassword(txtPassword.getText());
@@ -167,7 +167,7 @@ public class UserFrame extends JFrame {
 		btnUpdate.setBackground(new Color(0, 128, 255));
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = new User();
+				User user = new User("", "");
 				user.setNama(txtName.getText());
 				user.setUsername(txtUsername.getText());
 				user.setPassword(txtPassword.getText());

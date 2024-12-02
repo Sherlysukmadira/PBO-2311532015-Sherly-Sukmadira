@@ -6,29 +6,22 @@ import model.OrderDetail;
 public class TableOrderDetail extends AbstractTableModel{
 	List<OrderDetail> ls;
 	private String[] columnNames = {"Id", "Jenis", "Quantity", "Total"};
-	
-	
 	public TableOrderDetail(List <OrderDetail> ls) {
 		this.ls = ls;
 	}
-	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return ls.size();
 	}
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return 4;
 	}
 	public String getColumnName (int column) {
-		// TODO Auto-generated method stub
 		return columnNames[column];
 	}
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		switch (columnIndex) {
 		case 0:
 			return ls.get(rowIndex).getId();
@@ -41,7 +34,5 @@ public class TableOrderDetail extends AbstractTableModel{
 		default :
 		return null;
 		}
-		
 	}
-
 }
