@@ -23,7 +23,6 @@ public class CustomerRepo implements CustomerDao {
 	public CustomerRepo () {
 		connection = Database.koneksi();
 	}
-
 	@Override
 	public void save(Customer customer) {
 		PreparedStatement st = null;
@@ -33,8 +32,7 @@ public class CustomerRepo implements CustomerDao {
 			st.setString(2, customer.getAddress());
 			st.setString(3, customer.getPhone());
 			st.executeUpdate();
-		}
-		
+		}	
 		catch(SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,88 +1,151 @@
 package Ui;
 
-import java.awt.EventQueue;
+import util.ValidationArray;
+import error.ValidationException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
+    private int[] dataArray = new int[10]; // Array untuk menyimpan data
+    private int currentIndex = 0;
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+    private JTextField inputField;
+    private JTextField indexField;
+    private JTextArea outputArea;
+    private JButton btnSimpan;
+    private JButton btnCek;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public MainFrame() {
+        setTitle("Main Frame - Array Management");
+        setSize(499, 540);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public MainFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 613, 680);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        JLabel inputLabel = new JLabel("Masukkan Angka:");
+        inputLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+        inputLabel.setBounds(20, 79, 126, 29);
+        getContentPane().add(inputLabel);
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Laundry Apps");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblNewLabel.setBounds(210, 28, 172, 40);
-		contentPane.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Pesanan");
-		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnNewButton.setBounds(60, 110, 104, 71);
-		contentPane.add(btnNewButton);
-		
-		JButton btnLayanan = new JButton("Layanan");
-		btnLayanan.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnLayanan.setBounds(224, 110, 104, 71);
-		contentPane.add(btnLayanan);
-		
-		JButton btnPelanggan = new JButton("Pelanggan");
-		btnPelanggan.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnPelanggan.setBounds(392, 110, 104, 71);
-		contentPane.add(btnPelanggan);
-		
-		JButton btnPengguna = new JButton("Pengguna");
-		btnPengguna.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnPengguna.setBounds(60, 244, 104, 71);
-		contentPane.add(btnPengguna);
-		
-		JButton btnLaporan = new JButton("Laporan");
-		btnLaporan.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnLaporan.setBounds(224, 244, 104, 71);
-		contentPane.add(btnLaporan);
-		
-		JButton btnProfile = new JButton("Profile");
-		btnProfile.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnProfile.setBounds(392, 244, 104, 71);
-		contentPane.add(btnProfile);
-		
-		JButton btnNewButton_1 = new JButton("Keluar");
-		btnNewButton_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnNewButton_1.setBounds(54, 339, 454, 40);
-		contentPane.add(btnNewButton_1);
-	}
+        inputField = new JTextField();
+        inputField.setBounds(167, 80, 172, 27);
+        getContentPane().add(inputField);
 
+        btnSimpan = new JButton("Simpan");
+        btnSimpan.setBounds(367, 81, 100, 25);
+        getContentPane().add(btnSimpan);
+
+        JLabel indexLabel = new JLabel("Cek Index:");
+        indexLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        indexLabel.setBounds(20, 193, 100, 25);
+        getContentPane().add(indexLabel);
+
+        indexField = new JTextField();
+        indexField.setBounds(167, 192, 172, 29);
+        getContentPane().add(indexField);
+
+        btnCek = new JButton("Cek");
+        btnCek.setBounds(367, 194, 100, 27);
+        getContentPane().add(btnCek);
+
+        outputArea = new JTextArea();
+        outputArea.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        	}
+        });
+        outputArea.setBounds(20, 291, 447, 175);
+        getContentPane().add(outputArea);
+        
+        JLabel infoData = new JLabel("Data: "); // Teks default langsung diatur
+        infoData.setBounds(167, 137, 223, 25);
+        getContentPane().add(infoData);
+        
+        infoData.setBounds(167, 137, 223, 25);
+        getContentPane().add(infoData);
+        
+        JLabel lblData = new JLabel("Data     :");
+        lblData.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblData.setBounds(20, 137, 100, 25);
+        getContentPane().add(lblData);
+
+        
+        btnSimpan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Ambil input dari pengguna
+                    String input = inputField.getText().trim();
+
+                    // Pecah input menjadi array string berdasarkan koma
+                    String[] inputArray = input.split(",");
+
+                    for (String str : inputArray) {
+                        // Hilangkan spasi jika ada
+                        str = str.trim();
+
+                        // Parse setiap elemen menjadi angka
+                        int value = Integer.parseInt(str);
+
+                        // Simpan ke array jika masih ada ruang
+                        if (currentIndex < dataArray.length) {
+                            dataArray[currentIndex++] = value;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Array sudah penuh!");
+                            return;
+                        }
+                    }
+
+                    // Update tampilan data di JLabel infoData
+                    StringBuilder dataString = new StringBuilder();
+                    for (int i = 0; i < currentIndex; i++) {
+                        dataString.append(dataArray[i]).append(", ");
+                    }
+                    if (dataString.length() > 0) {
+                        dataString.setLength(dataString.length() - 2); // Hapus koma terakhir
+                    }
+                    infoData.setText(dataString.toString());
+
+                    // Kosongkan input field
+                    inputField.setText("");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Input harus berupa angka, dipisahkan dengan koma!");
+                }
+            }
+        });
+
+        
+
+        btnCek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int index = Integer.parseInt(indexField.getText().trim());
+
+                    // Validasi array index
+                    ValidationArray.ValidateArrayIndex(dataArray, index);
+
+                    // Tampilkan hasil pengecekan di outputArea
+                    outputArea.setText("Hasil index ke-" + index + " adalah " + dataArray[index]);
+                } catch (ValidationException ex) {
+                    outputArea.setText(ex.getMessage()); // Pesan error dari ValidationException
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    outputArea.setText("Index di luar batas array");
+                } catch (NumberFormatException ex) {
+                    outputArea.setText("Index harus berupa angka");
+                }
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
+    }
 }
