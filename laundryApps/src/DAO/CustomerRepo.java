@@ -21,7 +21,7 @@ public class CustomerRepo implements CustomerDao {
 	final String update = "UPDATE customer SET name=?, address=?, phone=? WHERE id = ?;";
 	
 	public CustomerRepo () {
-		connection = Database.koneksi();
+		connection = Database.getInstance().getConnection();
 	}
 	@Override
 	public void save(Customer customer) {

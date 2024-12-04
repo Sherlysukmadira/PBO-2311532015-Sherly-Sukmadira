@@ -26,7 +26,7 @@ public class ServiceRepo implements ServiceDao {
 
 	
 	public ServiceRepo () {
-		connection = Database.koneksi();
+		connection = Database.getInstance().getConnection();
 	}
 
 	@Override

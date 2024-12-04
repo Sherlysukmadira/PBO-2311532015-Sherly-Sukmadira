@@ -21,7 +21,7 @@ public class OrderDetailRepo implements OrderDetailDao {
 	final String update = "UPDATE order_detail SET jenis=?, qty=?, total=? WHERE id=?;";
 	
 	public OrderDetailRepo () {
-		connection = Database.koneksi();
+		connection = Database.getInstance().getConnection();
 	}
 
 	@Override

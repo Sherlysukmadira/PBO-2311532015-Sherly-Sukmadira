@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
         outputArea.setBounds(20, 291, 447, 175);
         getContentPane().add(outputArea);
         
-        JLabel infoData = new JLabel("Data: "); // Teks default langsung diatur
+        JLabel infoData = new JLabel(""); // Teks default langsung diatur
         infoData.setBounds(167, 137, 223, 25);
         getContentPane().add(infoData);
         
