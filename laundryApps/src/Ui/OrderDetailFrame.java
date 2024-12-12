@@ -79,7 +79,6 @@ public class OrderDetailFrame extends JFrame {
 	List<Service> ls;
 	public String id;
 	
-	
 	public void loadTable() {
 		ls = svr.show();
 		System.out.println(ls.size());
@@ -352,6 +351,7 @@ public class OrderDetailFrame extends JFrame {
 				ordd.setJenis(txtJenis1.getText());
 				ordd.setQty(txtJumlah.getText());
 				ordd.setTotal(txtTotal2.getText());
+				ordd.setHarga(txtHargaKg.getText());
 				reset();
 				odr.save(ordd);
 				loadTable1();

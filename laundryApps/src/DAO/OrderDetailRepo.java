@@ -15,10 +15,10 @@ import DAO.OrderDetailDao;
 
 public class OrderDetailRepo implements OrderDetailDao {
 	private Connection connection;
-	final String insert = "INSERT INTO order_detail (jenis, qty, total) VALUES (?,?,?);";
+	final String insert = "INSERT INTO order_detail (jenis, qty, total,harga) VALUES (?,?,?,?);";
 	final String select = "SELECT * FROM order_detail;";
 	final String delete = "DELETE FROM order_detail WHERE id=?;";
-	final String update = "UPDATE order_detail SET jenis=?, qty=?, total=? WHERE id=?;";
+	final String update = "UPDATE order_detail SET jenis=?, qty=?, total=?, harga=? WHERE id=?;";
 	
 	public OrderDetailRepo () {
 		connection = Database.getInstance().getConnection();
@@ -32,6 +32,7 @@ public class OrderDetailRepo implements OrderDetailDao {
 			st.setString(1, orderdetail.getJenis());
 			st.setString(2, orderdetail.getQty());
 			st.setString(3, orderdetail.getTotal());
+			st.setString(4, orderdetail.getHarga());
 			st.executeUpdate();
 		}
 		
@@ -97,7 +98,8 @@ public class OrderDetailRepo implements OrderDetailDao {
 			st.setString(1, orderdetail.getJenis());
 			st.setString(2, orderdetail.getQty());
 			st.setString(3, orderdetail.getTotal());
-			st.setString(4, orderdetail.getId());
+			st.setString(4, orderdetail.getHarga());
+			st.setString(5, orderdetail.getId());
 			st.executeUpdate();
 			
 		}catch(SQLException e){
