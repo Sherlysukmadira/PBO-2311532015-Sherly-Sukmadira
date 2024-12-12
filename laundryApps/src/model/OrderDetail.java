@@ -32,7 +32,11 @@ public class OrderDetail {
 	public void setTotal(String total) {
 		this.total = total;
 	}
-	public Object getHarga() {
-		return null;
+	
+	public String getHarga() {
+		return total;
+	}
+	public void setHarga(String harga) {
+		this.harga = harga;
 	}
 }

@@ -11,14 +11,15 @@ import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import confg.Database;
 import model.Customer;
+import model.CustomerBuilder;
 import DAO.CustomerDao;
 
 public class CustomerRepo implements CustomerDao {
 	private Connection connection;
-	final String insert = "INSERT INTO customer (name, address, phone) VALUES (?, ?, ?);";
+	final String insert = "INSERT INTO customer (name, address, phone, email) VALUES (?, ?, ?, ?);";
 	final String select = "SELECT * FROM customer;" ;
 	final String delete = "DELETE FROM customer WHERE id = ?;";
-	final String update = "UPDATE customer SET name=?, address=?, phone=? WHERE id = ?;";
+	final String update = "UPDATE customer SET name=?, address=?, phone=?, email=?, WHERE id = ?;";
 	
 	public CustomerRepo () {
 		connection = Database.getInstance().getConnection();
@@ -31,6 +32,7 @@ public class CustomerRepo implements CustomerDao {
 			st.setString(1, customer.getName());
 			st.setString(2, customer.getAddress());
 			st.setString(3, customer.getPhone());
+			st.setString(4, customer.getEmail());
 			st.executeUpdate();
 		}	
 		catch(SQLException e) {
@@ -44,7 +46,7 @@ public class CustomerRepo implements CustomerDao {
 			}
 		}
 	}
-
+	
 	@Override
 	public List<Customer> show() {
 		List<Customer>ls = null;
@@ -53,14 +55,16 @@ public class CustomerRepo implements CustomerDao {
 			Statement  st = connection.createStatement();
 			ResultSet rs = st.executeQuery(select);
 			while(rs.next()) {
-				Customer customer = new Customer();
-				customer.setId(rs.getString("id"));
-				customer.setName(rs.getString("name"));
-				customer.setAddress(rs.getString("address"));
-				customer.setPhone(rs.getString("phone"));
+			Customer customer = new CustomerBuilder()
+				    .setId(rs.getString("id"))
+				    .setName(rs.getString("name"))
+				    .setAddress(rs.getString("address"))
+				    .setPhone(rs.getString("phone"))
+				    .setEmail(rs.getString("email"))
+				    .build(); // Pastikan ada metode build() yang mengembalikan objek Customer
 				ls.add(customer);
 			}
-		}catch(SQLException e) {
+		} catch(SQLException e) {
 			Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE,null,e);
 		}
 		return ls;

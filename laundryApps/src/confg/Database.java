@@ -13,7 +13,7 @@ public class Database {
     // Constructor private agar tidak bisa diakses dari luar class
     private Database() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
             connection = DriverManager.getConnection("jdbc:mysql://localhost/laundry_apps", "root", "");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Koneksi database gagal: " + e.getMessage());
