@@ -16,11 +16,13 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.CustomerRepo;
+import error.ValidationException;
 import model.Customer;
 import model.CustomerBuilder;
 import model.User;
 import table.TableCustomer;
 import table.TableUser;
+import util.ValidationCustomer;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -154,26 +156,31 @@ public class CustomerFrame extends JFrame {
 		btnSave.setBackground(new Color(128, 255, 0));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CustomerBuilder customerBuild = new CustomerBuilder();
-				customerBuild.setName(txtName.getText());
-				customerBuild.setAddress(txtAddress.getText());
-				customerBuild.setPhone(txtPhone.getText());
-				customerBuild.setEmail(txtEmail.getText());
-				
-				customerBuild.setId(id);
-				Customer customer = customerBuild.build();
-				cus.save(customer);
-				reset();
-				loadTable();
-				//Customer customer = new Customer();
-				//customer.setName(txtName.getText());
-				//customer.setAddress(txtAddress.getText());
-				//customer.setPhone(txtPhone.getText());
-				//cus.save(customer);
-				//reset();
-				//loadTable();
-			}
+		        // Menambahkan blok try-catch untuk menangani ValidationException
+		        try {
+		            // Sebelum menggunakan builder 
+		            CustomerBuilder customerBuild = new CustomerBuilder();
+		            customerBuild.setName(txtName.getText());
+		            customerBuild.setAddress(txtAddress.getText());
+		            customerBuild.setPhone(txtPhone.getText());
+		            customerBuild.setEmail(txtEmail.getText());
+
+		            customerBuild.setId(id);
+		            Customer customer = customerBuild.build();
+
+		            // Memvalidasi data customer sebelum disimpan
+		            ValidationCustomer.validate(customer); // Ini yang mungkin melempar ValidationException
+
+		            cus.save(customer);  // Menyimpan data customer
+		            reset();  // Mereset input form
+		            loadTable();  // Memuat ulang data tabel
+		        } catch (ValidationException ex) {
+		            // Menangani exception validasi
+		            JOptionPane.showMessageDialog(null, "Validasi gagal: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
+		
 		btnSave.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnSave.setBounds(156, 312, 95, 26);
 		contentPane.add(btnSave);
@@ -181,19 +188,28 @@ public class CustomerFrame extends JFrame {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setBackground(new Color(0, 128, 255));
 		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CustomerBuilder customerBuild = new CustomerBuilder();
-				customerBuild.setName(txtName.getText());
-				customerBuild.setAddress(txtAddress.getText());
-				customerBuild.setPhone(txtPhone.getText());
-				customerBuild.setEmail(txtEmail.getText());
-				
-				customerBuild.setId(id);
-				Customer customer = customerBuild.build();
-				cus.update(customer);
-				reset();
-				loadTable();
-			}
+			  public void actionPerformed(ActionEvent e) {
+			        try {
+			            CustomerBuilder customerBuild = new CustomerBuilder();
+			            customerBuild.setName(txtName.getText());
+			            customerBuild.setAddress(txtAddress.getText());
+			            customerBuild.setPhone(txtPhone.getText());
+			            customerBuild.setEmail(txtEmail.getText());
+
+			            customerBuild.setId(id);
+			            Customer customer = customerBuild.build();
+
+			            // Memvalidasi data customer sebelum diupdate
+			            ValidationCustomer.validate(customer); // Ini yang mungkin melempar ValidationException
+
+			            cus.update(customer);  // Mengupdate data customer
+			            reset();  // Mereset input form
+			            loadTable();  // Memuat ulang data tabel
+			        } catch (ValidationException ex) {
+			            // Menangani exception validasi
+			            JOptionPane.showMessageDialog(null, "Validasi gagal: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
 		});
 		btnUpdate.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnUpdate.setBounds(267, 312, 95, 26);

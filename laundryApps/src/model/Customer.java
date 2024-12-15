@@ -1,4 +1,6 @@
 package model;
+import util.ValidationCustomer;
+
 
 public class Customer {
 	private String id;
@@ -14,7 +16,7 @@ public class Customer {
 		this.phone = phone;	
 		this.email = email;
 	}
-	
+	  
 	public String getId() {
 		return id;
 	}
@@ -34,5 +36,6 @@ public class Customer {
 	public String getEmail() {
 		return email;
 	}
+	
 	
 }
